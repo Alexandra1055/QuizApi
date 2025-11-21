@@ -20,7 +20,14 @@ public class User {
     @NotNull
     private String username;
 
+    @Column(nullable = false)
+    private String password;
+
     @OneToMany(mappedBy = "Ranking", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Ranking> ranking;
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
