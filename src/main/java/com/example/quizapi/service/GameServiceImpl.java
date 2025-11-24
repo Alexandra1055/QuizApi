@@ -1,6 +1,7 @@
 package com.example.quizapi.service;
 
 import com.example.quizapi.dto.QuestionDto;
+import com.example.quizapi.model.Question;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -19,13 +20,13 @@ public class GameServiceImpl implements GameService{
         this.gson = new GsonBuilder().create();
     }
 
-    public QuestionDto fetchQuestion(String mediaName, String difficulty) throws IOException, InterruptedException {
+    public Question fetchQuestion(String mediaName, String difficulty) throws IOException, InterruptedException {
         URI LIST_ENDPOINT = URI.create(baseUrlSearch + difficulty + "&limit=1");
 
         HttpRequest request = HttpRequest.newBuilder(LIST_ENDPOINT).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ensureSuccess(response, LIST_ENDPOINT.toString());
-        return gson.fromJson(response.body(), QuestionDto.class);
+        return gson.fromJson(response.body(), Question.class);
     }
 
     private void ensureSuccess(HttpResponse <?> response, String url){
