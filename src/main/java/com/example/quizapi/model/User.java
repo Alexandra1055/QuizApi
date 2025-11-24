@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "User")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,7 @@ public class User {
     @NotNull
     private String username;
 
+    @NotNull
     @Column(nullable = false)
     private String password;
 
@@ -27,9 +29,5 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public User() {
-
     }
 }

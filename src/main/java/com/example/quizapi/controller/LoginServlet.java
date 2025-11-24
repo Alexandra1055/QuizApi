@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.SneakyThrows;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,26 +31,24 @@ public class LoginServlet extends HttpServlet {
         if(request.getParameter("registered") != null){
             request.setAttribute("message", "Registration completed. Please sign in");
         }
-        System.out.println("antes del redirect");
-        System.out.println(request.getContextPath() + "/login.jsp");
-        response.sendRedirect(request.getContextPath() + "/login.jsp");
 
-//        PrintWriter printWriter = response.getWriter();
-//
-//        printWriter.println("<h1>Hola</h1>");
-
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username      = request.getParameter("username");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = null;
+        System.out.println(username);
+        System.out.println(password);
 
-        try {
-            user = userService.authenticate(username, password);
-        } catch (SQLException e) {
+        User user = userService.authenticate(username, password);
+
+
+
+        if (user == null) {
             request.setAttribute("error", "Invalid username or password.");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
             return;
@@ -56,7 +56,8 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession(true);
         session.setAttribute("username", user.getUsername());
+        session.setMaxInactiveInterval(60 * 5);
 
-        response.sendRedirect("/"); // canviar a games
+        response.sendRedirect("game");
     }
 }

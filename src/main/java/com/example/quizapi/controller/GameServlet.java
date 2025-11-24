@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "gameServlet", value =  "/")
+@WebServlet(name = "gameServlet", value =  "/game")
 public class GameServlet extends HttpServlet {
     private GameService service;
 

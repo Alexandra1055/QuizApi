@@ -2,6 +2,7 @@ package com.example.quizapi.service;
 
 import com.example.quizapi.dao.UserDao;
 import com.example.quizapi.dao.UserDaoJdbc;
+import com.example.quizapi.dao.UserDaoOrm;
 import com.example.quizapi.model.User;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userDao.findUser(username);
+
         if(user == null){
             return null;
         }

@@ -18,8 +18,8 @@
     </c:if>
     <%-- El formulari envia les credencials al servlet d'autenticació --%>
     <form action="${pageContext.request.contextPath}/login" method="post">
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" required/>
+        <label for="username">Username</label>
+        <input id="username" name="username" required/>
 
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required/>

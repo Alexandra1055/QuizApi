@@ -27,7 +27,7 @@ public class UserDaoJdbc implements UserDao{
 
     @Override
     public User findUser(String username) throws SQLException {
-        String sql = "SELECT * FROM Users WHERE username = ?";
+        String sql = "SELECT * FROM User WHERE username = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, username);
