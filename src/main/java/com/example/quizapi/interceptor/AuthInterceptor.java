@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/game")
+@WebFilter("/")
 public class AuthInterceptor implements Filter {
 
     @Override
@@ -23,6 +23,6 @@ public class AuthInterceptor implements Filter {
             return;
         }
 
-        response.sendRedirect("login");
+        response.sendRedirect("/login");
     }
 }

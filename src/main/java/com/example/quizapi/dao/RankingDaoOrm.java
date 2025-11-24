@@ -33,7 +33,7 @@ public class RankingDaoOrm implements RankingDao {
     public List<Ranking> findTop10() {
         EntityManager entityManager = ConnectionManager.getEntityManager();
 
-        List<Ranking> rankings = entityManager.createQuery("SELECT * FROM Ranking ORDER BY correct_answers DESC LIMIT 10;", Ranking.class).getResultList();
+        List<Ranking> rankings = entityManager.createQuery("SELECT r FROM Ranking r ORDER BY correct_answers DESC LIMIT 10", Ranking.class).getResultList();
 
         entityManager.close();
 

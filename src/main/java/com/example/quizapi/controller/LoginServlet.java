@@ -11,9 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
-@WebServlet(name =  "loginServlet", value = "/login")
+@WebServlet(name ="loginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
 
     private UserService userService;
@@ -28,7 +29,13 @@ public class LoginServlet extends HttpServlet {
         if(request.getParameter("registered") != null){
             request.setAttribute("message", "Registration completed. Please sign in");
         }
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        System.out.println("antes del redirect");
+        System.out.println(request.getContextPath() + "/login.jsp");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+
+//        PrintWriter printWriter = response.getWriter();
+//
+//        printWriter.println("<h1>Hola</h1>");
 
     }
 
@@ -50,6 +57,6 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute("username", user.getUsername());
 
-        //response.sendRedirect("");
+        response.sendRedirect("/"); // canviar a games
     }
 }
