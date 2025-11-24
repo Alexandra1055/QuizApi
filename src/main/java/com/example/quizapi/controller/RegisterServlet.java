@@ -25,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/register.jps").forward(request, response);
+        request.getRequestDispatcher("/register.jsp").forward(request, response);
     }
 
     @Override
@@ -33,13 +33,26 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        if (username == null || username.isBlank() ||
+                password == null || password.isBlank()) {
+
+            request.setAttribute("error", "Username and password are required.");
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
+        }
 
         try {
             User created = userService.register(username, password);
+
+            if (created == null) {
+                //por si ya existiera que me devuelva null
+                request.setAttribute("error", "Registration failed. Username may already be in use.");
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
+            }
+
         } catch (SQLException e) {
-            request.setAttribute("error", "Registration failed. The email may already be in use.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-            return;
+            throw new ServletException("Error registering user", e);
         }
 
         response.sendRedirect("login?registered=true");

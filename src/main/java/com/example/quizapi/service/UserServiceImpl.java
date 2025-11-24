@@ -23,13 +23,22 @@ public class UserServiceImpl implements UserService {
 
         User user = userDao.findUser(username);
 
-        if(user == null){
-            return null;
+        System.out.println("Encontrado: " + user);
+        if (user != null) {
+            System.out.println("Password en BD: " + user.getPassword());
         }
 
-        if(BCrypt.checkpw(password, user.getPassword())){
+        boolean match = BCrypt.checkpw(password, user.getPassword());
+        System.out.println("Coincide? " + match);
+        System.out.println(BCrypt.hashpw("1234", BCrypt.gensalt()));
+
+        if (match) {
             return user;
         }
+
+        //if(BCrypt.checkpw(password, user.getPassword())){
+           // return user;
+        //}
 
         return null;
 

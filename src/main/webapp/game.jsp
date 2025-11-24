@@ -124,7 +124,7 @@
 
     <div class="question-section">
         <div class="question-text">
-            <c:out value="${questionDto.question}" />
+            <c:out value="${questionDto.question}"/>
         </div>
 
         <form method="post" action="${pageContext.request.contextPath}/game">

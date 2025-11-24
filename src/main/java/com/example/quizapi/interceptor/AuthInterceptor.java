@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter("/")
+@WebFilter("/game")
 public class AuthInterceptor implements Filter {
 
     @Override
@@ -18,11 +18,11 @@ public class AuthInterceptor implements Filter {
 
         HttpSession session = request.getSession(false);
 
-        if(session != null){
+        if(session != null && session.getAttribute("username") != null){
             filterChain.doFilter(request, response);
             return;
         }
 
-        response.sendRedirect("/login");
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 }
