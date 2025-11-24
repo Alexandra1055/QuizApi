@@ -26,7 +26,7 @@ public class UserDaoJdbc implements UserDao{
     }
 
     @Override
-    public User findUser(String username) throws SQLException {
+    public User findUser(String username) {
         String sql = "SELECT * FROM User WHERE username = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
@@ -35,7 +35,7 @@ public class UserDaoJdbc implements UserDao{
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
-                return new User(resultSet.getString("username"), resultSet.getString("password"));
+                return new User(resultSet.getInt("id"), resultSet.getString("username"), resultSet.getString("password"));
             } else {
                 return null;
             }

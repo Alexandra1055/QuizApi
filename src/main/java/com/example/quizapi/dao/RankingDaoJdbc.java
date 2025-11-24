@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RankingDaoJdbc implements RankingDao{
+
     @Override
     public Ranking addRanking(Ranking ranking) {
         if(ranking == null) return null;
 
         try(Connection connection = JdbcConnector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Ranking (total_questions, correct_questions, user_id) VALUES (?, ?, ?)",
+                    "INSERT INTO Ranking (total_questions, correct_answers, user_id) VALUES (?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, ranking.getTotalQuestions());
             preparedStatement.setInt(2, ranking.getCorrectAnswers());

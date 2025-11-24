@@ -1,13 +1,12 @@
 package com.example.quizapi.service;
 
-import com.example.quizapi.dto.QuestionDto;
 import com.example.quizapi.model.Question;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
+import java.util.ArrayList;
 
 public class GameServiceImpl implements GameService{
     String baseUrlSearch = "https://the-trivia-api.com/v2/questions?difficulties=";
@@ -26,7 +25,18 @@ public class GameServiceImpl implements GameService{
         HttpRequest request = HttpRequest.newBuilder(LIST_ENDPOINT).GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ensureSuccess(response, LIST_ENDPOINT.toString());
-        return gson.fromJson(response.body(), Question.class);
+
+        JsonArray jsonArray = JsonParser.parseString(response.body()).getAsJsonArray();
+        JsonObject questionObject = jsonArray.get(0).getAsJsonObject();
+
+        String correctAnswer = questionObject.get("correctAnswer").getAsString();
+        ArrayList<String> incorrectAnswers = new ArrayList<>();
+        for (JsonElement elem : questionObject.getAsJsonArray("incorrectAnswers")) {
+            incorrectAnswers.add(elem.getAsString());
+        }
+        String questionText = questionObject.getAsJsonObject("question").get("text").getAsString();
+
+        return new Question(correctAnswer, incorrectAnswers, questionText); // Return the populated Question object
     }
 
     private void ensureSuccess(HttpResponse <?> response, String url){

@@ -24,9 +24,15 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "Ranking", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private List<Ranking> ranking;
+    private List<Ranking> rankings;
 
     public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(int id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }

@@ -9,7 +9,7 @@ import lombok.*;
 @Table(name = "Ranking")
 public class Ranking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
     @Column(name = "total_questions", nullable = false)
     protected int totalQuestions;
@@ -21,4 +21,15 @@ public class Ranking {
     private User user;
 
     private long time;
+
+    public Ranking(int totalQuestions, int correctAnswers, User user, long time) {
+        this.totalQuestions = totalQuestions;
+        this.correctAnswers = correctAnswers;
+        this.user = user;
+        this.time = time;
+    }
+
+    public Ranking() {
+
+    }
 }

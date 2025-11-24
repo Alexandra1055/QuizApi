@@ -1,33 +1,108 @@
 package com.example.quizapi.controller;
 
-import com.example.quizapi.service.GameService;
+import com.example.quizapi.dto.QuestionDto;
+import com.example.quizapi.model.Question;
+import com.example.quizapi.model.Ranking;
 import com.example.quizapi.service.GameServiceImpl;
+import com.example.quizapi.service.RankingService;
+import com.example.quizapi.service.RankingServiceImpl;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 
+import static com.example.quizapi.util.Mapper.toListAnswer;
+
 @WebServlet(name = "gameServlet", value =  "/game")
 public class GameServlet extends HttpServlet {
-    private GameService service;
+    private GameServiceImpl gameService;
+    private RankingService rankingService;
 
     @Override
     public void init(ServletConfig config) throws ServletException  {
-        service = new GameServiceImpl();
+        gameService = new GameServiceImpl();
+        rankingService = new RankingServiceImpl();
     }
 
+    @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer remainingTime = (Integer) session.getAttribute("remainingTime");
 
+        if(remainingTime == null){
+            remainingTime = 60;
+            session.setAttribute("remainingTime", remainingTime);
+            session.setAttribute("correctAnswerCount", 0);
+            session.setAttribute("incorrectAnswersCount", 0);
+        }
 
+        String difficulty = "medium";
+
+        Question question = gameService.fetchQuestion("trivia", difficulty);
+
+        QuestionDto questionDto = toListAnswer(question);
+
+        session.setAttribute("question", questionDto);
+
+        session.setAttribute("currentQuestion", question.getQuestion());
+        System.out.println(question.getQuestion());
+        session.setAttribute("correctAnswer", question.getCorrectAnswer());
+        session.setAttribute("incorrectAnswers", question.getIncorrectAnswers());
+
+        request.getRequestDispatcher("/game.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String userAnswer = request.getParameter("answer");
+        System.out.println(userAnswer);
+        String correctAnswer = (String) session.getAttribute("correctAnswer");
+        System.out.println(correctAnswer);
+        if (correctAnswer == null) {
+            throw new RuntimeException("Correct answer not found in session.");
+        }
+
+        Integer remainingTime = (Integer) session.getAttribute("remainingTime");
+
+        if (remainingTime == null) {
+            remainingTime = 60;
+        }
+
+        if(remainingTime <= 0 || userAnswer == null){
+            Ranking ranking = rankingService.saveSessionResults(session);
+
+            if(ranking != null){
+                request.setAttribute("ranking", ranking);
+            }
+
+            session.invalidate();
+            request.getRequestDispatcher("final.jsp").forward(request, response);
+        }
+
+
+        if(userAnswer.equals(correctAnswer)) {
+            int timeToAdd = 1;
+            Integer correctAnswerInt = (Integer) session.getAttribute("correctAnswerCount");
+            session.setAttribute("remainingTime", remainingTime + timeToAdd);
+            session.setAttribute("correctAnswerCount",  correctAnswerInt + 1);
+        } else {
+            int timeToSubstract = 5;
+            Integer incorrectAnswerInt = (Integer) session.getAttribute("incorrectAnswersCount");
+            session.setAttribute("remainingTime", remainingTime - timeToSubstract);
+            session.setAttribute("incorrectAnswersCount", incorrectAnswerInt + 1);
+        }
+
+        response.sendRedirect("game");
+
 
     }
 }

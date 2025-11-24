@@ -3,7 +3,11 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_2.xsd"
              version="3.2">
-    <persistence-unit name="quizMysql">
+
+    <!-- RESOURCE_LOCAL perquè gestionis les transaccions amb em.getTransaction() -->
+    <persistence-unit name="quizMysql" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Entitats -->
         <class>com.example.quizapi.model.User</class>
         <class>com.example.quizapi.model.Ranking</class>
 
@@ -35,11 +39,7 @@
                 <property name="openjpa.jdbc.SynchronizeMappings"
                           value="buildSchema(ForeignKeys=true, SchemaAction='add,deleteTableContents')"/>
             -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
-            <property name="jakarta.persistence.schema-generation.scripts.action" value="drop-and-create"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>  <!-- or "create-drop" -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.YourDialect"/> <!-- Use your database dialect -->
-            <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
+
