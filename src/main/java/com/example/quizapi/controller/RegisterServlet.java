@@ -8,10 +8,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.mindrot.jbcrypt.BCrypt;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "registerServlet", value = "/register")
 public class RegisterServlet extends HttpServlet {
@@ -19,29 +18,29 @@ public class RegisterServlet extends HttpServlet {
     private UserService userService;
 
     @Override
-    public void init(){
+    public void init() {
         userService = new UserServiceImpl();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/register.jps").forward(request, response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/register.jsp").forward(req, resp);
     }
 
+    @SneakyThrows
     @Override
-    protected void doPost(HttpServletRequest request,  HttpServletResponse response) throws IOException, ServletException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
+        User created = userService.register(email, password);
 
-        try {
-            User created = userService.register(username, password);
-        } catch (SQLException e) {
-            request.setAttribute("error", "Registration failed. The email may already be in use.");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
+        if (created == null) {
+            req.setAttribute("error", "Registration failed. The email may already be in use.");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
             return;
         }
 
-        response.sendRedirect("login?registered=true");
+        resp.sendRedirect("login?registered=true");
     }
 }

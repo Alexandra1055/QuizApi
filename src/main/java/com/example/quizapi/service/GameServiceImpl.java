@@ -34,4 +34,6 @@ public class GameServiceImpl implements GameService{
             throw new RuntimeException("The call " + url + " has failed with the code " + response.statusCode());
         }
     }
+
+
 }
