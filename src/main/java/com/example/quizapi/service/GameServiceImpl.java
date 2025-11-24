@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.*;
 
-public class ApiService {
+public class GameServiceImpl implements GameService{
     String baseUrlSearch = "https://the-trivia-api.com/v2/questions?difficulties=";
 
     private final HttpClient httpClient;
     private final Gson gson;
 
-    public ApiService(){
+    public GameServiceImpl(){
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new GsonBuilder().create();
     }

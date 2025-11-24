@@ -6,8 +6,6 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@RequiredArgsConstructor
-@NoArgsConstructor
 @Table(name = "Ranking")
 public class Ranking {
     @Id

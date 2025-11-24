@@ -5,6 +5,6 @@ import com.example.quizapi.model.User;
 import java.sql.SQLException;
 
 public interface UserService {
-    User authenticate(String email, String password) throws SQLException;
-    User register(String email, String password) throws SQLException;
+    User authenticate(String username, String password) throws SQLException;
+    User register(String username, String password) throws SQLException;
 }

@@ -11,8 +11,6 @@ import java.util.List;
 @Table(name = "User")
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +27,9 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User() {
+
     }
 }

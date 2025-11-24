@@ -1,5 +1,7 @@
 package com.example.quizapi.controller;
 
+import com.example.quizapi.service.GameService;
+import com.example.quizapi.service.GameServiceImpl;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,7 +17,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException  {
-        service = new GameService();
+        service = new GameServiceImpl();
     }
 
     @Override

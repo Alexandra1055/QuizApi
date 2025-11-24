@@ -8,9 +8,8 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionDto {
-    private String correctAnswer;
-    private ArrayList<String> incorrectAnswers;
     private String question;
+    private ArrayList<String> answers;
 }
 
 
