@@ -30,7 +30,7 @@ public class RegisterServlet extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
+        String email = req.getParameter("username");
         String password = req.getParameter("password");
 
         User created = userService.register(email, password);

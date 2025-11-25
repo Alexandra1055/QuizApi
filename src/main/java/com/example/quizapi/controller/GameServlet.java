@@ -17,6 +17,7 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 
+import static com.example.quizapi.model.Difficulty.*;
 import static com.example.quizapi.util.Mapper.toListAnswer;
 
 @WebServlet(name = "gameServlet", value =  "/game")
@@ -43,9 +44,21 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("incorrectAnswersCount", 0);
         }
 
-        String difficulty = "medium";
+        Integer correctAnswerCount = (Integer) session.getAttribute("correctAnswerCount");
+
+        String difficulty = "";
+
+        if( correctAnswerCount <= 3){
+            difficulty = easy.name();
+        } else if (correctAnswerCount <= 6){
+            difficulty = medium.name();
+        } else {
+            difficulty = hard.name();
+        }
 
         Question question = gameService.fetchQuestion("trivia", difficulty);
+
+        System.out.println(difficulty);
 
         QuestionDto questionDto = toListAnswer(question);
 
@@ -54,6 +67,7 @@ public class GameServlet extends HttpServlet {
         session.setAttribute("currentQuestion", question.getQuestion());
         System.out.println(question.getQuestion());
         session.setAttribute("correctAnswer", question.getCorrectAnswer());
+        System.out.println(question.getCorrectAnswer());
         session.setAttribute("incorrectAnswers", question.getIncorrectAnswers());
 
         request.getRequestDispatcher("/game.jsp").forward(request, response);
@@ -64,12 +78,7 @@ public class GameServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         String userAnswer = request.getParameter("answer");
-        System.out.println(userAnswer);
         String correctAnswer = (String) session.getAttribute("correctAnswer");
-        System.out.println(correctAnswer);
-        if (correctAnswer == null) {
-            throw new RuntimeException("Correct answer not found in session.");
-        }
 
         Integer remainingTime = (Integer) session.getAttribute("remainingTime");
 
@@ -90,19 +99,18 @@ public class GameServlet extends HttpServlet {
 
 
         if(userAnswer.equals(correctAnswer)) {
-            int timeToAdd = 1;
+            int timeToAdd = 5;
             Integer correctAnswerInt = (Integer) session.getAttribute("correctAnswerCount");
             session.setAttribute("remainingTime", remainingTime + timeToAdd);
             session.setAttribute("correctAnswerCount",  correctAnswerInt + 1);
         } else {
-            int timeToSubstract = 5;
+            int timeToSubstract = 10;
             Integer incorrectAnswerInt = (Integer) session.getAttribute("incorrectAnswersCount");
             session.setAttribute("remainingTime", remainingTime - timeToSubstract);
             session.setAttribute("incorrectAnswersCount", incorrectAnswerInt + 1);
         }
 
         response.sendRedirect("game");
-
 
     }
 }

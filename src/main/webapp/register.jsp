@@ -15,8 +15,8 @@
         <div class="feedback error">${error}</div>
     </c:if>
     <form action="${pageContext.request.contextPath}/register" method="post">
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" required />
+        <label for="username">Username</label>
+        <input id="username" name="username" required />
 
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required />
