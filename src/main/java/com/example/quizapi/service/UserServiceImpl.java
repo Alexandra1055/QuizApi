@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     public UserServiceImpl(){
-        this.userDao = new UserDaoJdbc();
+        this.userDao = new UserDaoOrm();
     }
 
     @Override
@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
         return userDao.addUser(user);
     }
 
+    @Override
+    public User findByUsername(String username) throws SQLException {
+        if (username == null) return null;
+        return userDao.findUser(username);
+    }
 }

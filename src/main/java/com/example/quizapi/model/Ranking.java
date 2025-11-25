@@ -20,6 +20,7 @@ public class Ranking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "time", nullable = false)
     private long time;
 
     public Ranking(int wrongAnswers, int correctAnswers, User user, long time) {

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 20-11-2025 a las 11:56:26
+-- Tiempo de generación: 25-11-2025 a las 15:21:24
 -- Versión del servidor: 8.0.44
--- Versión de PHP: 8.3.27
+-- Versión de PHP: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Ranking` (
   `id` int NOT NULL,
-  `total_questions` int NOT NULL,
+  `wrong_answers` int NOT NULL,
   `correct_answers` int NOT NULL,
-  `user_id` int NOT NULL
+  `user_id` int NOT NULL,
+  `time` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -42,7 +43,8 @@ CREATE TABLE `Ranking` (
 
 CREATE TABLE `User` (
   `id` int NOT NULL,
-  `username` varchar(50) NOT NULL
+  `username` varchar(50) NOT NULL,
+  `password` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --

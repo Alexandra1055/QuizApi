@@ -48,6 +48,8 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("startTime", timestamp.getTime());
         }
 
+        request.setAttribute("remainingTime", remainingTime);
+
         Integer correctAnswerCount = (Integer) session.getAttribute("correctAnswerCount");
 
         String difficulty = "";
@@ -124,6 +126,7 @@ public class GameServlet extends HttpServlet {
 
             session.invalidate();
             request.getRequestDispatcher("final.jsp").forward(request, response);
+            return;
         }
 
         if(userAnswer == null) {

@@ -1,5 +1,6 @@
 package com.example.quizapi.interceptor;
 
+import com.example.quizapi.model.User;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,13 +17,16 @@ public class AuthInterceptor implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") :null;
+        System.out.println(user);
+        System.out.println(session);
 
-        if (session != null) {
+        if (user != null) {
             filterChain.doFilter(request,response);
             return;
         }
 
-        response.sendRedirect("login");
+        response.sendRedirect(request.getContextPath() + "/login");
     }
 }
 

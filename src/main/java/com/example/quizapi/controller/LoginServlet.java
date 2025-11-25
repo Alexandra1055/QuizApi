@@ -38,15 +38,22 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = userService.authenticate(username, password);
+        User user = userService.findByUsername(username);
 
         if (user == null) {
-            request.setAttribute("error", "Invalid username or password.");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/register?username=" + username);
             return;
         }
 
         System.out.println(user.getId());
+
+        boolean match = org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPassword());
+
+        if (!match) {
+            request.setAttribute("error", "Invalid password");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
 
         HttpSession session = request.getSession(true);
         session.setAttribute("user", user);
