@@ -10,19 +10,18 @@ import java.io.IOException;
 
 @WebFilter("/game")
 public class AuthInterceptor implements Filter {
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest  request = (HttpServletRequest) servletRequest;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(false);
 
-        if(session != null && session.getAttribute("username") != null){
-            filterChain.doFilter(request, response);
+        if (session != null) {
+            filterChain.doFilter(request,response);
             return;
         }
 
-        response.sendRedirect(request.getContextPath() + "/login");
+        response.sendRedirect("login");
     }
 }
