@@ -92,7 +92,9 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("remainingTime", remainingTime);
         }
 
-        if(remainingTime <= 0 || userAnswer == null){
+
+
+        if(remainingTime <= 0){
 
             Long startTime = (Long) session.getAttribute("startTime");
 
@@ -126,6 +128,10 @@ public class GameServlet extends HttpServlet {
             request.getRequestDispatcher("final.jsp").forward(request, response);
         }
 
+        if(userAnswer == null) {
+            request.getRequestDispatcher("game.jsp").forward(request, response);
+            return;
+        }
 
         if(userAnswer.equals(correctAnswer)) {
             int timeToAdd = 5;
