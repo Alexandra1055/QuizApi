@@ -9,10 +9,10 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDaoOrm implements UserDao{
-    EntityManager em = ConnectionManager.getEntityManager();
 
     @Override
     public User findById(int id) {
+        EntityManager em = ConnectionManager.getEntityManager();
 
 
         User user= em.find(User.class, id);
@@ -23,6 +23,8 @@ public class UserDaoOrm implements UserDao{
 
     @Override
     public User findUser(String username) {
+        EntityManager em = ConnectionManager.getEntityManager();
+
         try{
             TypedQuery<User> query = em.createQuery(
                     "SELECT u FROM User u WHERE u.username = :username"
@@ -41,6 +43,8 @@ public class UserDaoOrm implements UserDao{
 
     @Override
     public User addUser(User user) {
+        EntityManager em = ConnectionManager.getEntityManager();
+
         try{
             em.getTransaction().begin();
             em.persist(user);
