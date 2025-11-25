@@ -11,8 +11,8 @@ public class Ranking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
-    @Column(name = "total_questions", nullable = false)
-    protected int totalQuestions;
+    @Column(name = "wrong_answers", nullable = false)
+    protected int wrongAnswers;
     @Column(name = "correct_answers", nullable = false)
     protected int correctAnswers;
 
@@ -22,8 +22,8 @@ public class Ranking {
 
     private long time;
 
-    public Ranking(int totalQuestions, int correctAnswers, User user, long time) {
-        this.totalQuestions = totalQuestions;
+    public Ranking(int wrongAnswers, int correctAnswers, User user, long time) {
+        this.wrongAnswers = wrongAnswers;
         this.correctAnswers = correctAnswers;
         this.user = user;
         this.time = time;

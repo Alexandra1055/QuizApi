@@ -27,6 +27,7 @@
         <button type="submit">Log in</button>
     </form>
     <a class="link" href="${pageContext.request.contextPath}/register">Create an account</a>
+    <a href="ranking.jsp">View top 10</a>
 </div>
 </body>
 </html>

@@ -11,8 +11,8 @@
 <p>Username: ${ranking.user.username}</p>
 <p>Total Duration: ${ranking.time} seconds</p>
 <p>Correct Answers: ${ranking.correctAnswers}</p>
-<p>Incorrect Answers: ${ranking.totalQuestions}</p>
-<a href="ranking.jsp">View Leaderboard</a>
+<p>Incorrect Answers: ${ranking.wrongAnswers}</p>
+<a href="ranking.jsp">View top 10</a>
 <a href="login.jsp">Play again</a>
 </body>
 </html>

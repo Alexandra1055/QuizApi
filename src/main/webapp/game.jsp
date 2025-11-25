@@ -9,13 +9,18 @@
 
         function startCountdown() {
             const countdownElement = document.getElementById('countdown');
+            const remainingTimeInput = document.getElementById('remainingTime'); // Get the hidden input
+
             const timer = setInterval(function() {
                 if (remainingTime <= 0) {
                     clearInterval(timer);
-                    document.getElementById('gameForm').submit();
+                    countdownElement.innerText = 'Time is up!';
+                    document.getElementById('gameForm').submit(); // Automatically submit the form
+                } else {
+                    countdownElement.innerText = remainingTime + ' seconds remaining';
+                    remainingTimeInput.value = remainingTime; // Update the hidden input
+                    remainingTime--;
                 }
-                countdownElement.innerText = remainingTime + ' seconds remaining';
-                remainingTime--;
             }, 1000);
         }
 
@@ -27,6 +32,7 @@
 <h2>${question.question}</h2>
 <form id="gameForm" action="game" method="post">
     <c:forEach var="option" items="${question.answers}">
+        <input type="hidden" name="remainingTime" id="remainingTime" value="${remainingTime}"/>
         <input type="radio" name="answer" value="${option}">${option}<br>
     </c:forEach>
     <button type="submit">Submit Answer</button>

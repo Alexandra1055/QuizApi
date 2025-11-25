@@ -19,7 +19,6 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public Ranking saveSessionResults(HttpSession session) {
-        // Create a new Ranking instance
         Ranking ranking = new Ranking();
 
         User user = (User) session.getAttribute("user");
@@ -34,7 +33,7 @@ public class RankingServiceImpl implements RankingService {
         Integer incorrectAnswers = (Integer) session.getAttribute("incorrectAnswersCount");
         Long totalTime = (Long) session.getAttribute("time");
 
-        ranking.setTotalQuestions( correctAnswers + incorrectAnswers);
+        ranking.setWrongAnswers(incorrectAnswers);
         ranking.setCorrectAnswers(correctAnswers);
         ranking.setTime(totalTime);
 

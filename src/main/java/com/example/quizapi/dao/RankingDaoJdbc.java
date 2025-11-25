@@ -15,9 +15,9 @@ public class RankingDaoJdbc implements RankingDao{
 
         try(Connection connection = JdbcConnector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Ranking (total_questions, correct_answers, user_id, time) VALUES (?, ?, ?, ?)",
+                    "INSERT INTO Ranking (wrong_answers, correct_answers, user_id, time) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setInt(1, ranking.getTotalQuestions());
+            preparedStatement.setInt(1, ranking.getWrongAnswers());
             preparedStatement.setInt(2, ranking.getCorrectAnswers());
             preparedStatement.setInt(3, ranking.getUser().getId());
             preparedStatement.setLong(4, ranking.getTime());
@@ -40,7 +40,7 @@ public class RankingDaoJdbc implements RankingDao{
         List<Ranking> top10 = new ArrayList<>();
 
         try(Connection connection = JdbcConnector.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Ranking ORDER BY correct_answers DESC LIMIT 10;")) {
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Ranking ORDER BY time DESC LIMIT 10;")) {
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while(resultSet.next()){
                     top10.add(toRankingEntity(resultSet));
@@ -57,7 +57,7 @@ public class RankingDaoJdbc implements RankingDao{
     private Ranking toRankingEntity(ResultSet resultSet) throws SQLException {
         Ranking ranking = new Ranking();
         ranking.setId(resultSet.getInt("id"));
-        ranking.setTotalQuestions(resultSet.getInt("total_questions"));
+        ranking.setWrongAnswers(resultSet.getInt("wrong_answers"));
         ranking.setCorrectAnswers(resultSet.getInt("correct_answers"));
 
         return ranking;

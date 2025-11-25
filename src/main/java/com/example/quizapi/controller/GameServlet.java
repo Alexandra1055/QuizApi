@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.security.Timestamp;
 import java.util.Date;
 
 import static com.example.quizapi.model.Difficulty.*;
@@ -53,7 +52,7 @@ public class GameServlet extends HttpServlet {
 
         String difficulty = "";
 
-        if( correctAnswerCount <= 3){
+        if(correctAnswerCount <= 3){
             difficulty = easy.name();
         } else if (correctAnswerCount <= 6){
             difficulty = medium.name();
@@ -85,14 +84,13 @@ public class GameServlet extends HttpServlet {
         String userAnswer = request.getParameter("answer");
         String correctAnswer = (String) session.getAttribute("correctAnswer");
 
-        Integer remainingTime = (Integer) session.getAttribute("remainingTime");
+        Integer remainingTime = Integer.parseInt(request.getParameter("remainingTime"));
+
 
         if (remainingTime == null) {
             remainingTime = 60;
             session.setAttribute("remainingTime", remainingTime);
         }
-
-
 
         if(remainingTime <= 0){
 
