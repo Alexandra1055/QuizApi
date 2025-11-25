@@ -15,11 +15,12 @@ public class RankingDaoJdbc implements RankingDao{
 
         try(Connection connection = JdbcConnector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO Ranking (total_questions, correct_answers, user_id) VALUES (?, ?, ?)",
+                    "INSERT INTO Ranking (total_questions, correct_answers, user_id, time) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, ranking.getTotalQuestions());
             preparedStatement.setInt(2, ranking.getCorrectAnswers());
             preparedStatement.setInt(3, ranking.getUser().getId());
+            preparedStatement.setLong(4, ranking.getTime());
 
             int affectedRows = preparedStatement.executeUpdate();
 

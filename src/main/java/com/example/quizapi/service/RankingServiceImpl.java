@@ -32,11 +32,11 @@ public class RankingServiceImpl implements RankingService {
 
         Integer correctAnswers = (Integer) session.getAttribute("correctAnswerCount");
         Integer incorrectAnswers = (Integer) session.getAttribute("incorrectAnswersCount");
-        Integer remainingTime = 60 - (Integer) session.getAttribute("remainingTime");
+        Long totalTime = (Long) session.getAttribute("time");
 
         ranking.setTotalQuestions( correctAnswers + incorrectAnswers);
         ranking.setCorrectAnswers(correctAnswers);
-        ranking.setTime(remainingTime);
+        ranking.setTime(totalTime);
 
         return rankingDao.addRanking(ranking);
     }

@@ -13,5 +13,6 @@
 <p>Correct Answers: ${ranking.correctAnswers}</p>
 <p>Incorrect Answers: ${ranking.totalQuestions}</p>
 <a href="ranking.jsp">View Leaderboard</a>
+<a href="login.jsp">Play again</a>
 </body>
 </html>

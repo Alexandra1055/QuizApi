@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.security.Timestamp;
+import java.util.Date;
 
 import static com.example.quizapi.model.Difficulty.*;
 import static com.example.quizapi.util.Mapper.toListAnswer;
@@ -36,12 +38,15 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer remainingTime = (Integer) session.getAttribute("remainingTime");
+        Date timestamp;
 
         if(remainingTime == null){
+            timestamp = new Date();
             remainingTime = 60;
             session.setAttribute("remainingTime", remainingTime);
             session.setAttribute("correctAnswerCount", 0);
             session.setAttribute("incorrectAnswersCount", 0);
+            session.setAttribute("startTime", timestamp.getTime());
         }
 
         Integer correctAnswerCount = (Integer) session.getAttribute("correctAnswerCount");
@@ -84,10 +89,34 @@ public class GameServlet extends HttpServlet {
 
         if (remainingTime == null) {
             remainingTime = 60;
+            session.setAttribute("remainingTime", remainingTime);
         }
 
         if(remainingTime <= 0 || userAnswer == null){
+
+            Long startTime = (Long) session.getAttribute("startTime");
+
+            if (startTime == null) {
+                startTime = System.currentTimeMillis();
+                session.setAttribute("startTime", startTime);
+            }
+
+            long finishTime = System.currentTimeMillis();
+
+            long totalTimeInMillis = finishTime - startTime;
+
+            System.out.println("startTime in doPost " + startTime);
+            System.out.println("endTime in doPost " + finishTime);
+            System.out.println("totalTime in doPost " + totalTimeInMillis);
+
+            long totalTime = totalTimeInMillis / 1000;
+
+            System.out.println("total time seconds in doPost " + totalTime);
+
+            session.setAttribute("time", totalTime);
+
             Ranking ranking = rankingService.saveSessionResults(session);
+
 
             if(ranking != null){
                 request.setAttribute("ranking", ranking);
