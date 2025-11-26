@@ -44,7 +44,6 @@ public class RegisterServlet extends HttpServlet {
             User created = userService.register(username, password);
 
             if (created == null) {
-                //por si ya existiera que me devuelva null
                 request.setAttribute("error", "Registration failed. Username may already be in use.");
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;

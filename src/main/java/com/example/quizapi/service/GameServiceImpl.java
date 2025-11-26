@@ -36,7 +36,7 @@ public class GameServiceImpl implements GameService{
         }
         String questionText = questionObject.getAsJsonObject("question").get("text").getAsString();
 
-        return new Question(correctAnswer, incorrectAnswers, questionText); // Return the populated Question object
+        return new Question(correctAnswer, incorrectAnswers, questionText);
     }
 
     private void ensureSuccess(HttpResponse <?> response, String url){

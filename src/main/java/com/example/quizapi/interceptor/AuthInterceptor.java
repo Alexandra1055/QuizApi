@@ -18,8 +18,6 @@ public class AuthInterceptor implements Filter {
 
         HttpSession session = request.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") :null;
-        System.out.println(user);
-        System.out.println(session);
 
         if (user != null) {
             filterChain.doFilter(request,response);

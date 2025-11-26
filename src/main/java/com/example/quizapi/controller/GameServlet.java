@@ -64,16 +64,12 @@ public class GameServlet extends HttpServlet {
 
         Question question = gameService.fetchQuestion("trivia", difficulty);
 
-        System.out.println(difficulty);
-
         QuestionDto questionDto = toListAnswer(question);
 
         session.setAttribute("question", questionDto);
 
         session.setAttribute("currentQuestion", question.getQuestion());
-        System.out.println(question.getQuestion());
         session.setAttribute("correctAnswer", question.getCorrectAnswer());
-        System.out.println(question.getCorrectAnswer());
         session.setAttribute("incorrectAnswers", question.getIncorrectAnswers());
 
         request.getRequestDispatcher("/game.jsp").forward(request, response);
@@ -107,13 +103,7 @@ public class GameServlet extends HttpServlet {
 
             long totalTimeInMillis = finishTime - startTime;
 
-            System.out.println("startTime in doPost " + startTime);
-            System.out.println("endTime in doPost " + finishTime);
-            System.out.println("totalTime in doPost " + totalTimeInMillis);
-
             long totalTime = totalTimeInMillis / 1000;
-
-            System.out.println("total time seconds in doPost " + totalTime);
 
             session.setAttribute("time", totalTime);
 
