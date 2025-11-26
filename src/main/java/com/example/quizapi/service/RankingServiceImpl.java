@@ -15,7 +15,7 @@ public class RankingServiceImpl implements RankingService {
     private final RankingDao rankingDao;
 
     public RankingServiceImpl() {
-        this.rankingDao = new RankingDaoOrm();
+        this.rankingDao = new RankingDaoJdbc();
     }
 
     @Override

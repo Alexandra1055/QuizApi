@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     public UserServiceImpl(){
-        this.userDao = new UserDaoJdbc();
+        this.userDao = new UserDaoOrm();
     }
 
     @Override
