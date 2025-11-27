@@ -45,8 +45,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        System.out.println(user.getId());
-
         boolean match = org.mindrot.jbcrypt.BCrypt.checkpw(password, user.getPassword());
 
         if (!match) {

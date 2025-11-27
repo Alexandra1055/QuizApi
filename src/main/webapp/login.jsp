@@ -11,8 +11,6 @@
 <body class="page page-auth">
 <div class="card card-auth">
     <div class="auth-header">
-        <!-- Si quieres logo, pon aquí una img -->
-        <!-- <img src="${pageContext.request.contextPath}/img/logo.svg" alt="Logo" class="auth-logo"> -->
         <h1 class="auth-title">Sign in to your account</h1>
         <p class="auth-subtitle">Play the Session Survival Game</p>
     </div>
