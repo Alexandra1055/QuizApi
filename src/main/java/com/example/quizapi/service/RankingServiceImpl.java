@@ -2,6 +2,7 @@ package com.example.quizapi.service;
 
 import com.example.quizapi.dao.RankingDao;
 import com.example.quizapi.dao.RankingDaoJdbc;
+import com.example.quizapi.dao.RankingDaoOrm;
 import com.example.quizapi.model.Ranking;
 import com.example.quizapi.model.User;
 
@@ -14,7 +15,7 @@ public class RankingServiceImpl implements RankingService {
     private final RankingDao rankingDao;
 
     public RankingServiceImpl() {
-        this.rankingDao = new RankingDaoJdbc();
+        this.rankingDao = new RankingDaoOrm();
     }
 
     @Override
